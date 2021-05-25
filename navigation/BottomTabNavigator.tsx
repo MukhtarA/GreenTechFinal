@@ -3,42 +3,50 @@
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
 
-import { Ionicons } from '@expo/vector-icons';
+import {EvilIcons, FontAwesome, Ionicons} from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import HomeScreen from '../screens/HomeScreen';
+import CategoriesScreen from '../screens/CategoriesScreen';
+import {BottomTabParamList, HomeParamList, CategoriesParamList, ProfileParamList} from '../types';
+import ProfileScreen from "../screens/ProfileScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+    const colorScheme = useColorScheme();
 
-  return (
-    <BottomTab.Navigator
-      initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
-      <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-        }}
-      />
-    </BottomTab.Navigator>
-  );
+    return (
+        <BottomTab.Navigator
+            initialRouteName="Home"
+            tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
+            <BottomTab.Screen
+                name="Home"
+                component={HomeNavigator}
+                options={{
+                    tabBarIcon: ({color}) => <TabBarIcon name="home" color={color}/>,
+                }}
+            />
+            <BottomTab.Screen
+                name="Categories"
+                component={CategoriesNavigator}
+                options={{
+                    tabBarIcon: ({color}) => <TabBarIcon name="menu" color={color}/>,
+                }}
+            />
+            <BottomTab.Screen
+                name="Profile"
+                component={ProfileNavigator}
+                options={{
+                    tabBarIcon: ({color}) => <EvilIcons name="user" size={30} color={color}/>,
+                }}
+            />
+        </BottomTab.Navigator>
+    );
 }
 
 // You can explore the built-in icon families and icons on the web at:
@@ -49,30 +57,44 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const TabOneStack = createStackNavigator<HomeParamList>();
 
-function TabOneNavigator() {
+function HomeNavigator() {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: 'Tab One Title' }}
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ headerShown: false }}
       />
     </TabOneStack.Navigator>
   );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const TabTwoStack = createStackNavigator<CategoriesParamList>();
 
-function TabTwoNavigator() {
+function CategoriesNavigator() {
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
+        name="CategoriesScreen"
+        component={CategoriesScreen}
+        options={{ headerShown: false }}
       />
     </TabTwoStack.Navigator>
   );
+}
+
+const ProfileStack = createStackNavigator<ProfileParamList>();
+
+function ProfileNavigator() {
+    return (
+        <ProfileStack.Navigator>
+            <ProfileStack.Screen
+                name="ProfileScreen"
+                component={ProfileScreen}
+                options={{ headerShown: false }}
+            />
+        </ProfileStack.Navigator>
+    );
 }
